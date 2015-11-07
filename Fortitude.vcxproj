@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="error.c" />
+    <ClCompile Include="font.c" />
     <ClCompile Include="fortitude.c" />
     <ClCompile Include="game.c" />
     <ClCompile Include="image.c" />
@@ -19,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="error.h" />
+    <ClInclude Include="font.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="image.h" />
     <ClInclude Include="resource.h" />

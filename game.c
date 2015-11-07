@@ -1,4 +1,4 @@
-#include "game.h"
+﻿#include "game.h"
 
 #include <stdbool.h>
 #include <stdlib.h>
@@ -7,6 +7,7 @@
 
 #include "error.h"
 #include "image.h"
+#include "font.h"
 
 fortitude_Game *fortitude_createGame(SDL_Window *window, SDL_Renderer *renderer)
 {
@@ -45,7 +46,8 @@ void fortitude_startGame(fortitude_Game *game)
 		for (int i = 0; i < 1920; i++)
 		{
 			SDL_SetTextureColorMod(sheet->texture, rand() % 256, rand() % 256, rand() % 256);
-			fortitude_renderSpriteSheetClip(game->renderer, sheet,(i % 80 * 8),(int)floor(i/80)*12, rand()%16, rand()%16);
+			int position = fortitude_getFontPositionFromCharacter(L'☺');
+			fortitude_renderSpriteSheetClip(game->renderer, sheet,(i % 80 * 8),(int)floor(i/80)*12, position%16, (int)floor(position/16));
 		}
 		fortitude_gameUpdate(game);
 		fortitude_gameRender(game);
