@@ -18,7 +18,7 @@ void createAndInitializeWindow(SDL_Window **window, SDL_Renderer **renderer)
 	SDL_SetWindowIcon(*window, surface);
 	SDL_FreeSurface(surface);
 
-	*renderer = SDL_CreateRenderer(*window, -1, NULL);
+	*renderer = SDL_CreateRenderer(*window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE);
 	if (*renderer == NULL) fortitude_throwError("Renderer wasn't able to be initialized!", BAD_RENDERER_INIT);
 }
 

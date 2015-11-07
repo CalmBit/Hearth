@@ -8,7 +8,7 @@ void fortitude_throwError(const char *message, int code)
 {
 	if (code >= 100 && code < 200)
 	{
-		wprintf("[FATAL] %s\n[SDL] %s", message, SDL_GetError());
+		wprintf(L"[FATAL] %s\n[SDL] %s", message, SDL_GetError());
 		SDL_ClearError();
 		char ch;
 		scanf("%c", &ch);
@@ -16,9 +16,9 @@ void fortitude_throwError(const char *message, int code)
 	}
 	else if (code >= 200 && code < 200)
 	{
-		wprintf("[ERROR] %s\n");
+		wprintf(L"[ERROR] %s\n");
 		const char* sdl = SDL_GetError();
-		if (*sdl) wprintf("[SDL] %s", sdl);
+		if (*sdl) wprintf(L"[SDL] %s", sdl);
 	}
 }
 

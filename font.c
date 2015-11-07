@@ -1,6 +1,48 @@
 ﻿#include "font.h"
 
-int fortitude_getFontPositionFromCharacter(unsigned character)
+#include <wchar.h>
+
+fortitude_Font *fortitude_createFont(SDL_Renderer *renderer, const char *path, int charSizeX, int charSizeY)
+{
+	fortitude_Font *font = (fortitude_Font *)malloc(sizeof(fortitude_Font));
+	font->spriteSheet = fortitude_createSpriteSheet(renderer, path, charSizeX, charSizeY, 16, 16);
+	return font;
+}
+
+void fortitude_renderStringInFont(SDL_Renderer *renderer, fortitude_Font *font, const wchar_t* string, int x, int y, int foreground, int background)
+{
+	for (size_t i = 0; i < wcslen(string); i++)
+	{
+		fortitude_renderCharacterInFont(renderer, font, string[i], x+i, y, foreground, background);
+	}
+}
+
+void fortitude_renderCharacterInFont(SDL_Renderer *renderer, fortitude_Font *font, wchar_t character, int x, int y, int foreground, int background)
+{
+	int position = 0;
+	char r = 0, g = 0, b = 0;
+
+	if (background != 0x000000)
+	{
+		position = fortitude_getFontPositionFromCharacter(L'█');
+		r = background >> 16;
+		g = background >> 8 & 0xFF;
+		b = background & 0xFF;
+		SDL_SetTextureColorMod(font->spriteSheet->texture, r, g, b);
+		fortitude_renderSpriteSheetClip(renderer, font->spriteSheet, x*font->spriteSheet->spriteWidth, y*font->spriteSheet->spriteHeight, position % 16, (int)floor(position / 16));
+	}
+	if (background != foreground)
+	{
+		position = fortitude_getFontPositionFromCharacter(character);
+		r = foreground >> 16;
+		g = foreground >> 8 & 0xFF;
+		b = foreground & 0xFF;
+		SDL_SetTextureColorMod(font->spriteSheet->texture, r, g, b);
+		fortitude_renderSpriteSheetClip(renderer, font->spriteSheet, x*font->spriteSheet->spriteWidth, y*font->spriteSheet->spriteHeight, position % 16, (int)floor(position / 16));
+	}
+}
+
+int fortitude_getFontPositionFromCharacter(wchar_t character)
 {
 	int rowX = 0;
 	int rowY = 0;
@@ -9,10 +51,14 @@ int fortitude_getFontPositionFromCharacter(unsigned character)
 		rowX = character % 16;
 		rowY = (int)floor((double)(character / 16));
 	}
+	else if (character == L'█') return 11+(13*16);
 	else
 	{
 		switch (character)
 		{
+			case L'☺':
+				rowX = 1;
+				break;
 			case L'■':
 				rowX = 14;
 				rowY = 15;
@@ -147,10 +193,6 @@ int fortitude_getFontPositionFromCharacter(unsigned character)
 				break;
 			case L'▄':
 				rowX = 12;
-				rowY = 13;
-				break;
-			case L'█':
-				rowX = 11;
 				rowY = 13;
 				break;
 			case L'┌':
@@ -626,9 +668,6 @@ int fortitude_getFontPositionFromCharacter(unsigned character)
 				break;
 			case L'☻':
 				rowX = 2;
-				break;
-			case L'☺':
-				rowX = 1;
 				break;
 		}
 	}

@@ -26,11 +26,15 @@ void fortitude_destroyGame(fortitude_Game *game)
 
 void fortitude_startGame(fortitude_Game *game)
 {
+	int ticks = SDL_GetTicks();
+	int delayTicks = 0;
 	if (game->window == NULL || game->renderer == NULL) fortitude_throwError("Game object was uninitialized!", PASSED_NULL_CONTEXT);
 	bool quit = false;
 	SDL_Event e;
-	fortitude_SpriteSheet *sheet = fortitude_createSpriteSheet(game->renderer, "assets/img/curses_640x300.png", 8, 12, 16, 16);
-	srand(time(NULL));
+	fortitude_Font *font = fortitude_createFont(game->renderer,"assets/img/curses_640x300.png", 8, 12);
+	int foreground = 0, background = 0;
+	srand((unsigned int)time(NULL));
+
 	while (!quit)
 	{
 		while (SDL_PollEvent(&e) != 0)
@@ -43,15 +47,31 @@ void fortitude_startGame(fortitude_Game *game)
 			}
 		}
 		SDL_RenderClear(game->renderer);
-		for (int i = 0; i < 1920; i++)
+		for (int i = 0; i < 80; i++)
 		{
-			SDL_SetTextureColorMod(sheet->texture, rand() % 256, rand() % 256, rand() % 256);
-			int position = fortitude_getFontPositionFromCharacter(L'☺');
-			fortitude_renderSpriteSheetClip(game->renderer, sheet,(i % 80 * 8),(int)floor(i/80)*12, position%16, (int)floor(position/16));
+			for (int j = 0; j < 24; j++)
+			{
+				if (i != 0 && i != 79 && j != 0 && j != 23)
+				{
+					fortitude_renderCharacterInFont(game->renderer, font, L'☺', i, j, 0x008080, 0x000000);
+				}
+				else
+				{
+					fortitude_renderCharacterInFont(game->renderer, font, L'█', i, j, 0x888888, 0x000000);
+				}
+				
+			}
 		}
+		fortitude_renderStringInFont(game->renderer, font, L"  Dwarf Fortress  ", 31, 0, 0x000000, 0xc0c0c0);
 		fortitude_gameUpdate(game);
 		fortitude_gameRender(game);
 		SDL_RenderPresent(game->renderer);
+
+		delayTicks = (16 - (SDL_GetTicks() - ticks));
+		if (delayTicks > 0) SDL_Delay(delayTicks);
+		else SDL_Delay(1);
+		ticks = SDL_GetTicks();
+
 	}
 }
 
