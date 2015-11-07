@@ -45,7 +45,7 @@ void fortitude_startGame(fortitude_Game *game)
 		for (int i = 0; i < 1920; i++)
 		{
 			SDL_SetTextureColorMod(sheet->texture, rand() % 256, rand() % 256, rand() % 256);
-			fortitude_renderSpriteSheetClip(game->renderer, sheet,(i % 80 * 8),(int)floor(i/80)*12, i%16, (int)floor(i/16)%16);
+			fortitude_renderSpriteSheetClip(game->renderer, sheet,(i % 80 * 8),(int)floor(i/80)*12, rand()%16, rand()%16);
 		}
 		fortitude_gameUpdate(game);
 		fortitude_gameRender(game);
