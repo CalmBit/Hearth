@@ -1,6 +1,9 @@
 #ifndef _FORT_ERROR_H
 #define _FORT_ERROR_H
 
+/* 
+	enum fortitude_ErrorCode -- list of possible error conditions and their codes
+*/
 typedef enum
 {
 	//100-199 are reserved for fatal conditions
