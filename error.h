@@ -11,8 +11,15 @@ typedef enum
 	TEXTURE_CREATION_FAILURE = 104,
 	PASSED_NULL_CONTEXT = 105,
 	ARGUMENT_OOB = 106,
+	PLATFORM_INCOMP = 107,
 	//200-299 are reserved for non-fatal errors, such as missing files.
 	ASSET_LOAD_FAILURE = 200,
+	MATERIAL_NOT_FOUND = 201,
+	NONESSENTIAL_NULL_CONTEXT = 203,
+	//300-399 are reserved for file IO/syntatic errors
+	MATERIAL_SYNTAX_ERROR = 300,
+	MATERIAL_TYPE_INVALID = 301,
+	MATERIAL_TOKEN_INVALID = 302,
 } fortitude_ErrorCode;
 
 /*

@@ -16,6 +16,7 @@
     <ClCompile Include="fortitude.c" />
     <ClCompile Include="game.c" />
     <ClCompile Include="image.c" />
+    <ClCompile Include="material.c" />
     <ClCompile Include="window.c" />
   </ItemGroup>
   <ItemGroup>
@@ -23,7 +24,9 @@
     <ClInclude Include="font.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="image.h" />
+    <ClInclude Include="material.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="stddefs.h" />
     <ClInclude Include="window.h" />
   </ItemGroup>
   <ItemGroup>

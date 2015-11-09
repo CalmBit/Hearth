@@ -30,6 +30,9 @@
     <ClCompile Include="window.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="material.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="font.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -51,6 +54,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="font.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="material.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stddefs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
