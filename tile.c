@@ -15,23 +15,15 @@
 	along with Hearth.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef _FORT_WINDOW_H
-#define _FORT_WINDOW_H
+#include "tile.h"
 
-#include <SDL2/SDL.h>
+#include <stdlib.h>
 
-/*
-	 createAndInitializeWindow() -- inititalize SDL, SDL_Window, and SDL_Renderer for essential context creation.
-	 *window - pouint32_ter to window to initalize.
-	 *renderer - pouint32_ter to render to initialize
- */
-void createAndInitializeWindow(SDL_Window **window, SDL_Renderer **renderer);
-
-/*
-	 destroyWindow() -- destroy SDL_Renderer and SDL_Window, and SDL_Quit.
-	 *window - pouint32_ter to window to destroy.
-	 *renderer - pouint32_ter to renderer to destroy.
- */
-void destroyWindow(SDL_Window *window, SDL_Renderer *renderer);
-
-#endif
+hearth_Tile *hearth_createTile(hearth_TileForm tileForm, uint32_t temperature)
+{
+	hearth_Tile *tile = (hearth_Tile *)malloc(sizeof(hearth_Tile));
+	tile->tileForm = tileForm;
+	tile->temperature = temperature;
+	tile->visible = rand() % 2;
+	return tile;
+}

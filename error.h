@@ -1,8 +1,25 @@
-#ifndef _FORT_ERROR_H
-#define _FORT_ERROR_H
+/*
+	This file is part of Hearth.
+
+	Hearth is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+
+	Hearth is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with Hearth.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+#ifndef HEARTH_ERROR_H
+#define HEARTH_ERROR_H
 
 /* 
-	enum fortitude_ErrorCode -- list of possible error conditions and their codes
+	enum hearth_ErrorCode -- list of possible error conditions and their codes
 */
 typedef enum
 {
@@ -17,19 +34,15 @@ typedef enum
 	PLATFORM_INCOMP = 107,
 	//200-299 are reserved for non-fatal errors, such as missing files.
 	ASSET_LOAD_FAILURE = 200,
-	MATERIAL_NOT_FOUND = 201,
 	NONESSENTIAL_NULL_CONTEXT = 203,
 	//300-399 are reserved for file IO/syntatic errors
-	MATERIAL_SYNTAX_ERROR = 300,
-	MATERIAL_TYPE_INVALID = 301,
-	MATERIAL_TOKEN_INVALID = 302,
-} fortitude_ErrorCode;
+} hearth_ErrorCode;
 
 /*
 	 throwError() -- throw fatal error and exit with code.
 	 message - string to use as error message.
-	 code - integer to use as exit code
+	 code - uint32_teger to use as exit code
  */
-void fortitude_throwError(const char *message, fortitude_ErrorCode code);
+void hearth_throwError(const char *message, hearth_ErrorCode code);
 
 #endif

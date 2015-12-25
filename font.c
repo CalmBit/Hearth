@@ -1,55 +1,72 @@
-﻿#include "font.h"
+﻿/*
+	This file is part of Hearth.
+
+	Hearth is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+
+	Hearth is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with Hearth.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+#include "font.h"
 
 #include <wchar.h>
 
-fortitude_Font *fortitude_createFont(SDL_Renderer *renderer, const char *path, int charSizeX, int charSizeY)
+hearth_Font *hearth_createFont(SDL_Renderer *renderer, const char *path, uint32_t charSizeX, uint32_t charSizeY)
 {
-	fortitude_Font *font = (fortitude_Font *)malloc(sizeof(fortitude_Font));
-	font->spriteSheet = fortitude_createSpriteSheet(renderer, path, charSizeX, charSizeY, 16, 16);
+	hearth_Font *font = (hearth_Font *)malloc(sizeof(hearth_Font));
+	font->spriteSheet = hearth_createSpriteSheet(renderer, path, charSizeX, charSizeY, 16, 16);
 	return font;
 }
 
-void fortitude_renderStringInFont(SDL_Renderer *renderer, fortitude_Font *font, const wchar_t* string, int x, int y, int foreground, int background)
+void hearth_renderStringInFont(SDL_Renderer *renderer, hearth_Font *font, const wchar_t* string, uint32_t x, uint32_t y, uint32_t foreground, uint32_t background)
 {
 	for (size_t i = 0; i < wcslen(string); i++)
 	{
-		fortitude_renderCharacterInFont(renderer, font, string[i], x+i, y, foreground, background);
+		hearth_renderCharacterInFont(renderer, font, string[i], x+i, y, foreground, background);
 	}
 }
 
-void fortitude_renderCharacterInFont(SDL_Renderer *renderer, fortitude_Font *font, wchar_t character, int x, int y, int foreground, int background)
+void hearth_renderCharacterInFont(SDL_Renderer *renderer, hearth_Font *font, wchar_t character, uint32_t x, uint32_t y, uint32_t foreground, uint32_t background)
 {
-	int position = 0;
+	uint32_t position = 0;
 	char r = 0, g = 0, b = 0;
 
 	if (background != 0x000000)
 	{
-		position = fortitude_getFontPositionFromCharacter(L'█');
+		position = hearth_getFontPositionFromCharacter(L'█');
 		r = background >> 16;
 		g = background >> 8 & 0xFF;
 		b = background & 0xFF;
 		SDL_SetTextureColorMod(font->spriteSheet->texture, r, g, b);
-		fortitude_renderSpriteSheetClip(renderer, font->spriteSheet, x*font->spriteSheet->spriteWidth, y*font->spriteSheet->spriteHeight, position % 16, (int)floor(position / 16));
+		hearth_renderSpriteSheetClip(renderer, font->spriteSheet, x*font->spriteSheet->spriteWidth, y*font->spriteSheet->spriteHeight, position % 16, (uint32_t)floor(position / 16));
 	}
 	if (background != foreground)
 	{
-		position = fortitude_getFontPositionFromCharacter(character);
+		position = hearth_getFontPositionFromCharacter(character);
 		r = foreground >> 16;
 		g = foreground >> 8 & 0xFF;
 		b = foreground & 0xFF;
 		SDL_SetTextureColorMod(font->spriteSheet->texture, r, g, b);
-		fortitude_renderSpriteSheetClip(renderer, font->spriteSheet, x*font->spriteSheet->spriteWidth, y*font->spriteSheet->spriteHeight, position % 16, (int)floor(position / 16));
+		hearth_renderSpriteSheetClip(renderer, font->spriteSheet, x*font->spriteSheet->spriteWidth, y*font->spriteSheet->spriteHeight, position % 16, (uint32_t)floor(position / 16));
 	}
 }
 
-int fortitude_getFontPositionFromCharacter(wchar_t character)
+uint32_t hearth_getFontPositionFromCharacter(wchar_t character)
 {
-	int rowX = 0;
-	int rowY = 0;
+	uint32_t rowX = 0;
+	uint32_t rowY = 0;
 	if (character >= 0x20 && character < 0x80)
 	{
 		rowX = character % 16;
-		rowY = (int)floor((double)(character / 16));
+		rowY = (uint32_t)floor((double)(character / 16));
 	}
 	else if (character == L'█') return 11+(13*16);
 	else
@@ -672,4 +689,10 @@ int fortitude_getFontPositionFromCharacter(wchar_t character)
 		}
 	}
 	return rowY * 16 + rowX;
+}
+
+void hearth_destroyFont(hearth_Font *font)
+{
+	hearth_destroySpriteSheet(font->spriteSheet);
+	free(font);
 }

@@ -1,30 +1,47 @@
-﻿#ifndef _FORT_FONT_H
-#define _FORT_FONT_H
+﻿/*
+	This file is part of Hearth.
+
+	Hearth is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+
+	Hearth is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with Hearth.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+#ifndef HEARTH_FONT_H
+#define HEARTH_FONT_H
 
 #include <math.h>
 
 #include "image.h"
 
 /*
-	struct fortitude_Font -- font object with which to render characters
+	struct hearth_Font -- font object with which to render characters
 	*spriteSheet -- spritesheet containing character glyphs
 */
-typedef struct Font
+typedef struct hearth_Font
 {
-	fortitude_SpriteSheet *spriteSheet;
-} fortitude_Font;
+	hearth_SpriteSheet *spriteSheet;
+} hearth_Font;
 
 /*
-	fortitude_createFont() -- fortitude_Font factory
+	hearth_createFont() -- hearth_Font factory
 	*renderer - render to perform render operations
 	*path - path to font image file
 	charSizeX - width of characters
 	charSizeY - height of characters
 */
-fortitude_Font *fortitude_createFont(SDL_Renderer *renderer, const char *path, int charSizeX, int charSizeY);
+hearth_Font *hearth_createFont(SDL_Renderer *renderer, const char *path, uint32_t charSizeX, uint32_t charSizeY);
 
 /*
-	fortitude_renderStringInFont() -- renders a string in the provided font
+	hearth_renderStringInFont() -- renders a string in the provided font
 	*renderer - render to perform render operations
 	*string - wchar_t string to render to the screen
 	x - x character position for string
@@ -32,10 +49,10 @@ fortitude_Font *fortitude_createFont(SDL_Renderer *renderer, const char *path, i
 	foreground - foreground colour for string in RGB hex format
 	background - background colour for string in RGB hex format
 */
-void fortitude_renderStringInFont(SDL_Renderer *renderer, fortitude_Font *font, const wchar_t *string, int x, int y, int foreground, int background);
+void hearth_renderStringInFont(SDL_Renderer *renderer, hearth_Font *font, const wchar_t *string, uint32_t x, uint32_t y, uint32_t foreground, uint32_t background);
 
 /*
-	fortitude_renderCharacterInFont() -- renders a character in the provided font
+	hearth_renderCharacterInFont() -- renders a character in the provided font
 	*renderer - render to perform render operations
 	*character - wchar_t to render to the screen
 	x - x character position
@@ -43,12 +60,14 @@ void fortitude_renderStringInFont(SDL_Renderer *renderer, fortitude_Font *font, 
 	foreground - foreground colour for string in RGB hex format
 	background - background colour for string in RGB hex format
 */
-void fortitude_renderCharacterInFont(SDL_Renderer *renderer, fortitude_Font *font, wchar_t character, int x, int y, int foreground, int background);
+void hearth_renderCharacterInFont(SDL_Renderer *renderer, hearth_Font *font, wchar_t character, uint32_t x, uint32_t y, uint32_t foreground, uint32_t background);
 
 /*
-	fortitude_getFontPositionFromCharacter() -- gets position integer for character on glyph sheet for later decomposition
+	hearth_getFontPositionFromCharacter() -- gets position uint32_teger for character on glyph sheet for later decomposition
 	character - character for position finding
 */
-int fortitude_getFontPositionFromCharacter(wchar_t character);
+uint32_t hearth_getFontPositionFromCharacter(wchar_t character);
+
+void hearth_destroyFont(hearth_Font *font);
 
 #endif

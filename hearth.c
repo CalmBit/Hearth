@@ -1,4 +1,4 @@
-/*
+﻿/*
 	This file is part of Hearth.
 
 	Hearth is free software: you can redistribute it and/or modify
@@ -15,23 +15,24 @@
 	along with Hearth.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef _FORT_WINDOW_H
-#define _FORT_WINDOW_H
+#include <stdio.h>
 
 #include <SDL2/SDL.h>
 
-/*
-	 createAndInitializeWindow() -- inititalize SDL, SDL_Window, and SDL_Renderer for essential context creation.
-	 *window - pouint32_ter to window to initalize.
-	 *renderer - pouint32_ter to render to initialize
- */
-void createAndInitializeWindow(SDL_Window **window, SDL_Renderer **renderer);
+#include "error.h"
+#include "window.h"
+#include "game.h"
 
-/*
-	 destroyWindow() -- destroy SDL_Renderer and SDL_Window, and SDL_Quit.
-	 *window - pouint32_ter to window to destroy.
-	 *renderer - pouint32_ter to renderer to destroy.
- */
-void destroyWindow(SDL_Window *window, SDL_Renderer *renderer);
 
-#endif
+int main(int argc, char* argv[])
+{
+	SDL_Window *window = NULL;
+	SDL_Renderer *renderer = NULL;
+	hearth_Game *game = NULL;
+
+	createAndInitializeWindow(&window, &renderer);
+	game = hearth_createGame(window, renderer);
+	hearth_startGame(game);
+	destroyWindow(window, renderer);
+	return 0;
+}

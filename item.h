@@ -15,23 +15,38 @@
 	along with Hearth.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef _FORT_WINDOW_H
-#define _FORT_WINDOW_H
+#ifndef HEARTH_ITEM_H
+#define HEARTH_ITEM_H
 
-#include <SDL2/SDL.h>
+#include <stdint.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
 
-/*
-	 createAndInitializeWindow() -- inititalize SDL, SDL_Window, and SDL_Renderer for essential context creation.
-	 *window - pouint32_ter to window to initalize.
-	 *renderer - pouint32_ter to render to initialize
- */
-void createAndInitializeWindow(SDL_Window **window, SDL_Renderer **renderer);
+typedef enum
+{
+	ITEM_POTION,
+	ITEM_ARMOUR_HELM,
+	ITEM_ARMOUR_CHEST,
+	ITEM_ARMOUR_LEGS,
+	ITEM_ARMOUR_BOOTS,
+	ITEM_ARMOUR_BRACES,
+	ITEM_WEAPON_SWORD
+} hearth_ItemType;
 
-/*
-	 destroyWindow() -- destroy SDL_Renderer and SDL_Window, and SDL_Quit.
-	 *window - pouint32_ter to window to destroy.
-	 *renderer - pouint32_ter to renderer to destroy.
- */
-void destroyWindow(SDL_Window *window, SDL_Renderer *renderer);
+typedef struct hearth_Item
+{
+	const char *name;
+	const char *description;
+	wchar_t symbol;
+	uint32_t foreground;
+	uint32_t background;
+	hearth_ItemType itemType;
+	void(*effect)(void *player);
+} hearth_Item;
+
+void hearth_ItemEffect_MinorPotionHeal();
+void hearth_ItemEffect_RegularPotionHeal();
+void hearth_ItemEffect_GreaterPotionHeal();
 
 #endif
