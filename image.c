@@ -22,6 +22,7 @@
 #include <SDL2/SDL_image.h>
 
 #include "error.h"
+#include "stddefs.h"
 
 hearth_Image *hearth_createImage(SDL_Renderer *renderer, const char *path)
 {
@@ -30,14 +31,12 @@ hearth_Image *hearth_createImage(SDL_Renderer *renderer, const char *path)
 	char error[255];
 	if (surface == NULL)
 	{
-		strcpy(error, "Image ");
-		strcpy(error, path);
-		strcpy(error," couldn't be loaded!");
+		sprintf(error, HEARTH_ERRORSTR_NOLOADIMG, path);
 		hearth_throwError(error, ASSET_LOAD_FAILURE);
-		surface = IMG_Load("assets/img/fallback.png");
+		surface = IMG_Load(HEARTH_FALLBACKIMG_PATH);
 		if (surface == NULL)
 		{
-			hearth_throwError("Fallback image is missing!", ESSENTIAL_ASSET_MISSING);
+			hearth_throwError(HEARTH_ERRORSTR_FALLBACKMISSING, ESSENTIAL_ASSET_MISSING);
 		}
 		error[0] = '\0';
 	}
@@ -45,9 +44,7 @@ hearth_Image *hearth_createImage(SDL_Renderer *renderer, const char *path)
 	image->texture = SDL_CreateTextureFromSurface(renderer, surface);
 	if (image->texture == NULL)
 	{
-		strcpy(error, "Texture failed to be created from image ");
-		strcpy(error, path);
-		strcpy(error, "!");
+		sprintf(error, HEARTH_ERRORSTR_TEXCREATEFAIL, path);
 		hearth_throwError(error, TEXTURE_CREATION_FAILURE);
 	}
 	SDL_FreeSurface(surface);
@@ -61,14 +58,12 @@ hearth_SpriteSheet *hearth_createSpriteSheet(SDL_Renderer *renderer, const char 
 	char error[255];
 	if (surface == NULL)
 	{
-		strcpy(error, "Image ");
-		strcpy(error, path);
-		strcpy(error, " couldn't be loaded!");
+		sprintf(error, HEARTH_ERRORSTR_NOLOADIMG, path);
 		hearth_throwError(error, ASSET_LOAD_FAILURE);
-		surface = IMG_Load("assets/img/fallback.png");
+		surface = IMG_Load(HEARTH_FALLBACKIMG_PATH);
 		if (surface == NULL)
 		{
-			hearth_throwError("Fallback image is missing!", ESSENTIAL_ASSET_MISSING);
+			hearth_throwError(HEARTH_ERRORSTR_FALLBACKMISSING, ESSENTIAL_ASSET_MISSING);
 		}
 		error[0] = '\0';
 	}
@@ -76,9 +71,7 @@ hearth_SpriteSheet *hearth_createSpriteSheet(SDL_Renderer *renderer, const char 
 	spriteSheet->texture = SDL_CreateTextureFromSurface(renderer, surface);
 	if (spriteSheet->texture == NULL)
 	{
-		strcpy(error, "Texture failed to be created from image ");
-		strcpy(error, path);
-		strcpy(error, "!");
+		sprintf(error, HEARTH_ERRORSTR_TEXCREATEFAIL, path);
 		hearth_throwError(error, TEXTURE_CREATION_FAILURE);
 	}
 	SDL_FreeSurface(surface);
@@ -94,13 +87,13 @@ void hearth_renderSpriteSheetClip(SDL_Renderer *renderer, hearth_SpriteSheet *sp
 	SDL_Rect srcRect;
 	SDL_Rect dstRect;
 
-	if (renderer == NULL) hearth_throwError("Renderer was passed as NULL!", PASSED_NULL_CONTEXT);
+	if (renderer == NULL) hearth_throwError(HEARTH_ERRORSTR_RENDERNULL, PASSED_NULL_CONTEXT);
 
 	srcRect.w = spriteSheet->spriteWidth;
 	srcRect.h = spriteSheet->spriteHeight;
-	if (sX >= spriteSheet->spriteColumns) hearth_throwError("SpriteSheet column was out of bounds!", ARGUMENT_OOB);
+	if (sX >= spriteSheet->spriteColumns) hearth_throwError(HEARTH_ERRORSTR_SPRSHTCOL, ARGUMENT_OOB);
 	srcRect.x = spriteSheet->spriteWidth*sX;
-	if (sY >= spriteSheet->spriteRows) hearth_throwError("SpriteSheet row was out of bounds!", ARGUMENT_OOB);
+	if (sY >= spriteSheet->spriteRows) hearth_throwError(HEARTH_ERRORSTR_SPRSHTROW, ARGUMENT_OOB);
 	srcRect.y = spriteSheet->spriteHeight*sY;
 
 	dstRect.w = spriteSheet->spriteWidth;

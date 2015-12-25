@@ -20,11 +20,11 @@
 #include "player.h"
 #include <stdio.h>
 
-hearth_Item itemList[HEARTH_ITEM_NUM] =
+const hearth_Item itemList[HEARTH_ITEM_NUM] =
 {
 	{
-		"Minor Potion of Healing",
-		"Heals for 2 Health.",
+		HEARTH_ITEMNAME_MINPOTHEAL,
+		HEARTH_ITEMDESC_MINPOTHEAL,
 		L'i',
 		0x00FF88,
 		0x000000,
@@ -32,13 +32,22 @@ hearth_Item itemList[HEARTH_ITEM_NUM] =
 		&hearth_ItemEffect_MinorPotionHeal
 	},
 	{
-		"Potion of Healing",
-		"Heals for 4 health.",
+		HEARTH_ITEMNAME_REGPOTHEAL,
+		HEARTH_ITEMDESC_REGPOTHEAL,
 		L'i',
 		0x00FFFF,
 		0x000000,
 		ITEM_POTION,
 		&hearth_ItemEffect_RegularPotionHeal
+	},
+	{
+		HEARTH_ITEMNAME_MAJPOTHEAL,
+		HEARTH_ITEMDESC_MAJPOTHEAL,
+		L'i',
+		0x88FFFF,
+		0x000000,
+		ITEM_POTION,
+		&hearth_ItemEffect_GreaterPotionHeal
 	}
 };
 
@@ -51,5 +60,11 @@ void hearth_ItemEffect_MinorPotionHeal(void *player)
 void hearth_ItemEffect_RegularPotionHeal(void *player)
 {
 	printf("RegularPotionTest");
-	hearth_damagePlayer((hearth_Player *)player, -4);
+	hearth_damagePlayer((hearth_Player *)player, -5);
+}
+
+void hearth_ItemEffect_GreaterPotionHeal(void *player)
+{
+	printf("GreaterPotionTest");
+	hearth_damagePlayer((hearth_Player *)player, -10);
 }

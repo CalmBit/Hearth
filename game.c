@@ -37,7 +37,7 @@ hearth_Game *hearth_createGame(SDL_Window *window, SDL_Renderer *renderer)
 	game->turnTimer = 0;
 
 	if (!hearth_loadTiles(game) || game->tiles[0][0] == NULL) 
-		hearth_throwError("Tile array wasn't initialized properly!", ESSENTIAL_ASSET_MISSING);
+		hearth_throwError(HEARTH_ERRORSTR_TILEARRBAD, ESSENTIAL_ASSET_MISSING);
 	return game;
 }
 
@@ -58,10 +58,10 @@ void hearth_startGame(hearth_Game *game)
 	wchar_t fpString[8];
 	swprintf(fpString, 8, L"FPS:%d", lastFrameCount);
 	if (game->window == NULL || game->renderer == NULL) 
-		hearth_throwError("Game object was uninitialized!", PASSED_NULL_CONTEXT);
+		hearth_throwError(HEARTH_ERRORSTR_GAMEOBJNULL, PASSED_NULL_CONTEXT);
 	bool quit = false;
 	SDL_Event e;
-	hearth_Font *font = hearth_createFont(game->renderer,"assets/img/curses_640x300.png", 8, 12);
+	hearth_Font *font = hearth_createFont(game->renderer, HEARTH_DEFAULTIMG_PATH, 8, 12);
 	uint32_t foreground = 0, background = 0;
 	srand((uint32_t)time(NULL));
 	game->player = hearth_createPlayer(L"Phobeos", 10, 10);
